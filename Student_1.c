@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include <stdlib.h>
-// Students strcture
+// Students structure
 struct Students
 {
      char Name[20];
@@ -8,108 +8,111 @@ struct Students
 	 int BD[3];
 	 int Score;
 };
-int ii=0; //the global counter of the linked list
+int NO; // the number of the initialized linked list
 struct node
 {
     struct Students st;
     struct node* next;
 };
-void insert(struct node* n)
+struct node* n=NULL;
+struct node* head=NULL;
+struct node* tail=NULL;
+void create_nodes()
 {
-    printf("please enter the student's name:"); scanf("%s", n->st.Name);
-    printf("\n please enter the student's ID:"); scanf("%i",&n->st.ID);
-    printf("\n please enter the student's birthday:(day month year)"); scanf("%i %i %i",&n->st.BD[0], &n->st.BD[1], &n->st.BD[2]);
-    printf("\n please enter the last year score:"); scanf("%i", &n->st.Score);
-    ii++;
+    n =(struct node*) malloc(sizeof(struct node));
+    struct node* tem=NULL;
+    head=n;
+    tail=n;
+    n->next=NULL;
+    for(int i=1;i<NO;i++)
+    {
+        tem=n;
+        n =(struct node*) malloc(sizeof(struct node));
+        tem->next=n;
+        tail=n;
+        n->next=NULL;
+    }
+}
+
+void node_location()
+{
+    int QA2; //QA2 is the sub-menu list numbers
+    int k;  //the node number in inserting in the middle
+    struct node* tem=NULL;
+    for(int i=0;i<NO;i++)
+    {
+        printf("Insert the node : \n 1. At the beginning \n 2.In the middle \n 3.At the end \n");
+        scanf("%i",&QA2);
+        if(QA2==1)
+        {
+            tem=head;
+            insert(tem);
+        }
+        else if(QA2==2)
+        {
+            printf("\n please insert the node number(more than 1 and less than the size :3): "); scanf("%i",&k);
+            while(k>=NO)
+            {
+                printf("please insert a number smaller than %i", NO);
+                scanf("%i", &k);
+            }
+            tem=head;
+            for(int j=1; j<=k ; j++)
+            {
+                tem=tem->next;
+            }
+            insert(tem);
+        }
+        else if(QA2==3)
+        {
+            insert(tail);
+        }
+    }
 };
-void display(struct node* n)
+
+void insert(struct node* p)
 {
-    while(n!=NULL)
+    printf("please enter the student's name:"); scanf("%s", p->st.Name);
+    printf("\n please enter the student's ID:"); scanf("%i",&p->st.ID);
+    printf("\n please enter the student's birthday:(day month year)"); scanf("%i %i %i",&p->st.BD[0], &p->st.BD[1], &p->st.BD[2]);
+    printf("\n please enter the last year score:"); scanf("%i", &p->st.Score);
+};
+void display()
+{
+    struct node* tem=NULL;
+    tem=head;
+    while(tem!=NULL)
     {
     printf("\n -------------------------------------------");
-    printf("\n student's name:"); printf("%s",n->st.Name);
-    printf("\n student's ID:"); printf("%i",n->st.ID);
-    printf("\n student's birthday:(day month year) "); printf(" %i %i %i", n->st.BD[0], n->st.BD[1], n->st.BD[2]);
-    printf("\n last year score:"); printf("%i", n->st.Score);
+    printf("\n student's name:"); printf("%s",tem->st.Name);
+    printf("\n student's ID:"); printf("%i",tem->st.ID);
+    printf("\n student's birthday:(day month year) "); printf(" %i %i %i", tem->st.BD[0], tem->st.BD[1], tem->st.BD[2]);
+    printf("\n last year score:"); printf("%i", tem->st.Score);
     printf("\n --------------------------------------------");
-    n=n->next;
+    tem=tem->next;
     }
 };
  int main ()
  {
 	printf("Welcome\n");
 	int QA1; //QA1 is the menu list numbers
-    int QA2; //QA2 is the sub-menu list numbers
-    int k;  //the node number in inserting in the middle
-    struct node* head=NULL;
-    struct node* tail=NULL;
-    struct node* n=NULL;
     struct node* tem=NULL;
-    n =(struct node*) malloc(sizeof(struct node));
-    head=n;
-    tail=n;
-    n->next=NULL;
-    insert(n);
-    again:
+    printf("please enter the number of nodes:");
+    scanf("%i", &NO);
+    create_nodes();
+    node_location();
     printf("\n Do you wish to.. (choose a number) \n");
-    printf("1. insert a student's info \n");
-    printf("2. display a students' info \n");
-    printf("3. The number of nodes \n");
-    printf("4. Exit \n");
+    printf("1. display a students' info \n");
+    printf("2. The number of nodes \n");
+    printf("3. Exit \n");
 
     scanf("%i", &QA1);
     if(QA1==1)
     {
-       repeat2:
-        printf("1. At the beginning \n 2.In the middle \n 3.At the end \n");
-        scanf("%i",&QA2);
-        if(QA2==1)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            n ->next=head;
-            head=n;
-            insert(n);
-        }
-        else if(QA2==2)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            printf("\n please insert the node number(1 or more): "); scanf("%i",&k);
-            while(k>=ii)
-            {
-                printf("please insert a number maller than %i", ii);
-                scanf("%i", &k);
-            }
-            tem=head;
-            for(int i=1;i<k;i++)
-            {
-                tem=tem->next;
-            }
-            n->next = tem->next;
-            tem->next=n;
-            insert(n);
-        }
-        else if(QA2==3)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            tail->next = n;
-            tail = tail->next;
-            n->next=NULL;
-            insert(n);
-        }
-        else
-        {
-            printf("unavailable number");
-            goto repeat2;
-        }
+        display();
     }
-    else if(QA1==2)
-    {
-        tem=head;
-        display(tem);
-    }
-    else if(QA1==3) printf("The number of students: %i \n", ii);
-    else if(QA1==4) {goto hault;}
-    goto again;
+    else if(QA1==2) printf("The number of students: %i \n", NO);
+    else if(QA1==3) {goto hault;}
    hault:
     return 0;
  }
