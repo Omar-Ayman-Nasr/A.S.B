@@ -1,5 +1,6 @@
 #include<stdlib.h>
 #include<stdio.h>
+ DynamicArray
 // Students strcture
 struct Students
 {
@@ -45,6 +46,10 @@ void insert(struct Students* stud) {//function to take data of student to be ins
 void begin(struct Students* stud, int N) {
 	for (int i = 1;i <= N;i++) {
 		*(stud+N-i+1) = *(stud+N-i);//shifting elements of the array to the right to empty place at the begging
+
+
+
+ main
 
 	}
 	printf_s("please enter the data of the new student \n");
