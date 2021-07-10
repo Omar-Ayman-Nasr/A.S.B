@@ -158,7 +158,7 @@ void insert_Linked_List()
             }
             clock_t end_t2 = clock();
             double time_spent2 = ((double)(end_t2 - start_t2)) / CLOCKS_PER_SEC;
-            printf("Time taken when inserting at the beggining using Linked List is %f\n",time_spent2);
+            printf("Time taken when inserting at the end using Linked List is %f\n",time_spent2);
             length++;
             break;
         }
@@ -271,10 +271,10 @@ int main()
             scanf("%d", &s);
             switch (s) {
             case 1: {
-                clock_t start_t1 =clock();
+                clock_t start_t1 =clock(); // to calculate the starting time of the function
                 insert(stud, 1);// insert at the beggining (insertion at index 1)
-                clock_t end_t1 = clock();
-             double time_spent1 = ((double)(end_t1 - start_t1)) / CLOCKS_PER_SEC;
+                clock_t end_t1 = clock(); // to calculate the end time of the function
+             double time_spent1 = ((double)(end_t1 - start_t1)) / CLOCKS_PER_SEC; // to calculate time taken of the function
              printf("Time taken when inserting at the beggining using dynamic array is %f\n",time_spent1);
                 
                 break;
