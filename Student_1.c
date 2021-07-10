@@ -1,116 +1,117 @@
+#include<stdlib.h>
 #include<stdio.h>
-#include <stdlib.h>
 // Students strcture
 struct Students
 {
-     char Name[32];
-	 int ID;
-	 int BD[3];
-	 int Score;
+	char Name[32];
+	int ID;
+	int BD[3];
+	int Score;
 };
-int ii=0; //the global counter of the linked list
-struct node
-{
-    struct Students st;
-    struct node* next;
-};
-void insert(struct node* n)
-{
-    printf("please enter the student's name:"); scanf("%s", n->st.Name);
-    printf("\n please enter the student's ID:"); scanf("%i",&n->st.ID);
-    printf("\n please enter the student's birthday:(day month year)"); scanf("%i %i %i",&n->st.BD[0], &n->st.BD[1], &n->st.BD[2]);
-    printf("\n please enter the last year score:"); scanf("%i", &n->st.Score);
-    ii++;
-};
-void display(struct node* n)
-{
-    while(n!=NULL)
-    {
-    printf("\n -------------------------------------------");
-    printf("\n student's name:"); printf("%s",n->st.Name);
-    printf("\n student's ID:"); printf("%i",n->st.ID);
-    printf("\n student's birthday:(day month year) "); printf(" %i %i %i", n->st.BD[0], n->st.BD[1], n->st.BD[2]);
-    printf("\n last year score:"); printf("%i", n->st.Score);
-    printf("\n --------------------------------------------");
-    n=n->next;
-    }
-};
- int main ()
- {
+int N=0;//size of array
+void student_data(struct Students* stud, int i) {//function the collect initial students data
+	char garbage;
+	printf("please enter the name of student number %i \n", i + 1);
+	scanf("%c", &garbage, 1);
+	scanf("%[^\n]", stud->Name, 32);//entering the name of student
+
+	printf("please enter ID of student number %i \n", i + 1);
+	scanf("%d", &stud->ID);
+	printf("please enter birthday of student number %i day/month/year respectively each in a separate line \n", i+1);
+		for (int i = 0;i < 3;i++)
+		{
+			scanf("%d", &stud->BD[i]);
+		}
+	printf("please enter Score of student number %i \n", i + 1);
+	scanf("%d", &stud->Score);
+	printf("Student number %i data taken successfully \n", i + 1);
+	N++;
+}
+void newstudent(struct Students* stud) {//function to take data of new student to be inserted
+	char garbage;
+	printf("please enter the name of new student \n");
+	scanf("%c", &garbage, 1);
+	scanf("%[^\n]", stud->Name, 32);
+
+	printf("please enter ID of new student\n");
+	scanf("%d", &stud->ID);
+	printf("please enter birthday of new student  day/month/year respectively each in a separate line \n");
+	for (int i = 0;i < 3;i++)
+	{
+		scanf("%d", &stud->BD[i]);
+	}
+	printf("please enter Score of new student\n");
+	scanf("%d", &stud->Score);
+	printf("New student data taken successfully \n");
+	N++;
+}
+void insert(struct Students* stud, int index) {//function to insert a new student
+		for (int i = 0;i <=(N-index+1);i++) {
+			*(stud + N +1- i ) = *(stud + N - i);//shifting elements of array after insertion index 
+		}
+		newstudent(stud + index-1);//insertion using insert function
+		
+}
+int main()
+{printf("The size of structure %d\n", sizeof(struct Students));
+	
 	printf("Welcome\n");
-	int QA1; //QA1 is the menu list numbers
-    int QA2; //QA2 is the sub-menu list numbers
-    int k;  //the node number in inserting in the middle
-    struct node* head=NULL;
-    struct node* tail=NULL;
-    struct node* n=NULL;
-    struct node* tem=NULL;
-    n =(struct node*) malloc(sizeof(struct node));
-    head=n;
-    tail=n;
-    n->next=NULL;
-    insert(n);
-    again:
-    printf("\n Do you wish to.. (choose a number) \n");
-    printf("1. insert a student's info \n");
-    printf("2. display a students' info \n");
-    printf("3. The number of nodes \n");
-    printf("4. Exit \n");
+	int initial; //initial number of students
+	int index;// variable used for insertion index
+	int s;//variable used to store user choice of insertion
+	int c=1;//variable to store when to terminate
+	struct Students* stud;//main pointer
+	printf("please enter intial number of students\n");
+	scanf("%d", &initial);
+	stud = (struct Students*)malloc(initial);//initializing the dynamic array
+	for (int i = 0;i < initial;i++) {
+		student_data(stud + i, i);
+	}// for loop to gather the initial students data
+	printf("printing initial array elements \n");
+	for (int i = 0;i < initial;i++)//loop to print the array elements before insertion 
+	{
+		printf("student %d name is: %s\n", i + 1, (stud + i)->Name);
+		printf("student %d ID is: %d\n", i + 1, (stud + i)->ID);
+		printf("student %d score is: %d\n", i + 1, (stud + i)->Score);
+		printf("student %d birthdate is: %d /", i + 1, (stud + i)->BD[0]);
+		printf(" %d /", (stud + i)->BD[1]);
+		printf(" %d \n", (stud + i)->BD[2]);
+	}
+	while (c) {
+			printf("please choose kind of insertion 1 for the beggining 2 for end 3 for any index 4 to terminate \n");
+			scanf("%d", &s);
+			switch (s) {
+			case 1: {insert(stud, 1);// insert at the beggining (insertion at index 1)
+				break;
+			}
+			case 2: {insert(stud, N+1);// insert at the end (insertion at index N+1)
+				break;
+			}
+			case 3: { printf("please enter the index of the new student \n");
+				scanf("%d", &index);
+				if(index<=(N+1))
+				insert(stud, index);//insertion using insert function
+				else {
+					printf("wrong entry you must enter a valid index \n");
 
-    scanf("%i", &QA1);
-    if(QA1==1)
-    {
-       repeat2:
-        printf("1. At the beginning \n 2.In the middle \n 3.At the end \n");
-        scanf("%i",&QA2);
-        if(QA2==1)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            n ->next=head;
-            head=n;
-            insert(n);
-        }
-        else if(QA2==2)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            printf("\n please insert the node number(1 or more): "); scanf("%i",&k);
-            while(k>=ii)
-            {
-                printf("please insert a number maller than %i", ii);
-                scanf("%i", &k);
-            }
-            tem=head;
-            for(int i=1;i<k;i++)
-            {
-                tem=tem->next;
-            }
-            n->next = tem->next;
-            tem->next=n;
-            insert(n);
-        }
-        else if(QA2==3)
-        {
-            n =(struct node*) malloc(sizeof(struct node));
-            tail->next = n;
-            tail = tail->next;
-            n->next=NULL;
-            insert(n);
-        }
-        else
-        {
-            printf("unavailable number");
-            goto repeat2;
-        }
-    }
-    else if(QA1==2)
-    {
-        tem=head;
-        display(tem);
-    }
-    else if(QA1==3) printf("The number of students: %i \n", ii);
-    else if(QA1==4) {goto hault;}
-    goto again;
-   hault:
-    return 0;
- }
+				}
+				break;
+			}
+			case 4:c = 0;
+				break;
+			default:printf("wrong entry you must choose from 1 to 3 \n");
+			}
+		}
+	printf("printing array elemtens after insertion \n");
+	for (int i = 0;i < N ;i++)//loop to print the array elements after insertion 
+	{
 
+		printf("student %d name: %s\n", i + 1, (stud + i)->Name);
+		printf("student %d ID: %d\n", i + 1, (stud + i)->ID);
+		printf("student %d score: %d\n", i + 1, (stud + i)->Score);
+		printf("student %d birthdate: %d /", i + 1, (stud + i)->BD[0]);
+		printf(" %d /", (stud + i)->BD[1]);
+		printf(" %d \n", (stud + i)->BD[2]);
+	}
+	return 0;
+}
