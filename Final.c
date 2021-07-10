@@ -78,6 +78,7 @@ struct node
 struct node* head = NULL;
 struct node* tail = NULL;
 
+// linked list functions
 
 // function for node creation
 void Node_Creation(struct node* new)
@@ -99,7 +100,7 @@ void Node_Creation(struct node* new)
 }
 
 
-// linked list functions
+
 // function for inserting node
 void insert_Linked_List()
 {
